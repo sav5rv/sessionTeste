@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Session-Express Example</title>
+</head>
+<body>
+  <h1>Session Data</h1>
+
+  <form id="store-data-form">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+
+    <button type="submit">Store Data</button>
+  </form>
+
+  <div id="data-container"></div>
+
+  <script>
+    const storeDataForm = document.getElementById('store-data-form');
+    const dataContainer = document.getElementById('data-container');
+
+    storeDataForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const username = event.target.elements.username.value;
+      const email = event.target.elements.email.value;
+
+        const response = fetch('store-data', {
+            method: 'POST',
+            body: JSON.stringify({
+                username: username,
+                email: email
+            })
+        });
+
+        
+        if (response.ok) {
+        console.log('Request successful');
+        } else {
+        console.log('Request failed');
+        }
+
+
+    //   fetch('/store-data', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       username,
+    //       email
+    //     })
+    //   })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log('Data stored in session:', data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error storing data:', error);
+    //   });
+    });
+
+    // fetch('/get-data')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     const html = `
+    //       <p>Username: ${data.username}</p>
+    //       <p>Email: ${data.email}</p>
+    //     `;
+
+    //     dataContainer.innerHTML = html;
+    //   })
+    //   .catch(error => {
+    //     console.error('Error retrieving data:', error);
+    //   });
+
+    const response = fetch('/get-data');
+
+        if (response.ok) {
+        const data = response.json();
+
+        const html = `
+            <p>Username: ${data.username}</p>
+            <p>Email: ${data.email}</p>
+            `;
+
+        dataContainer.innerHTML = html;
+
+        console.log(data);
+        
+        } else {
+        console.log(response.status);
+        };
+
+  </script>
+</body>
+</html>
