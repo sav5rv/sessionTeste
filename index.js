@@ -3,6 +3,9 @@ const session = require('express-session');
 
 const app = express();
 
+app.use(require('cors')())
+
+
 // Configure the session middleware
 app.use(session({
   secret: 'my-secret-key',
@@ -11,7 +14,9 @@ app.use(session({
 }));
 
 // Define a route to store data in the session
+
 app.post('/store-data', (req, res) => {
+  console.log("acesso app POST");
   const username = req.body.username;
   const email = req.body.email;
 
@@ -23,6 +28,7 @@ app.post('/store-data', (req, res) => {
 
 // Define a route to retrieve data from the session
 app.get('/get-data', (req, res) => {
+  console.log("acesso app GET");
   const username = req.session.username;
   const email = req.session.email;
 
@@ -34,6 +40,6 @@ app.get('/get-data', (req, res) => {
   res.json(data);
 });
 
-app.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+app.listen(5500, () => {
+  console.log('Server is listening on port 5500');
 });
